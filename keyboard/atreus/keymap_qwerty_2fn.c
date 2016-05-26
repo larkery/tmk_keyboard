@@ -23,7 +23,7 @@
 #define RBRCE (SHIFT(KC_RBRC))
 
 const uint16_t PROGMEM fn_actions[] = {
-  [0] = ACTION_LAYER_TAP_KEY(1, KC_NUBS),  // to Fn overlay
+  [0] = ACTION_LAYER_TAP_KEY(1, KC_EQUAL),  // to Fn overlay
   [1] = ACTION_LAYER_TAP_KEY(2, KC_MINS),  // to Fn overlay
   [2] = ACTION_FUNCTION(BOOTLOADER),
   [3] = ACTION_MODS_ONESHOT(MOD_LSFT),
