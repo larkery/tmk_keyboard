@@ -54,6 +54,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *  These options are also useful to firmware size reduction.
  */
 
+#define ONESHOT_TAP_TOGGLE 2
+#define ONESHOT_TIMEOUT 800
+
 /* disable debug print */
 //#define NO_DEBUG
 
