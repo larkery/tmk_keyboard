@@ -55,12 +55,20 @@ void action_exec(keyevent_t event)
 
 void process_action(keyrecord_t *record)
 {
+    bool do_release_oneshot = false;
     keyevent_t event = record->event;
 #ifndef NO_ACTION_TAPPING
     uint8_t tap_count = record->tap.count;
 #endif
 
     if (IS_NOEVENT(event)) { return; }
+
+#if (defined(ONESHOT_TIMEOUT) && (ONESHOT_TIMEOUT > 0))
+    if (has_oneshot_layer_timed_out()) {
+        dprintf("Oneshot layer: timeout\n");
+        clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
+    }
+#endif
 
     action_t action = layer_switch_get_action(event.key);
     dprint("ACTION: "); debug_action(action);
@@ -69,6 +77,14 @@ void process_action(keyrecord_t *record)
     dprint(" default_layer_state: "); default_layer_debug();
 #endif
     dprintln();
+
+
+#ifndef NO_ACTION_ONESHOT
+    if (is_oneshot_layer_active() && event.pressed) {
+        clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
+        do_release_oneshot = !is_oneshot_layer_active();
+    }
+#endif
 
     switch (action.kind.id) {
         /* Key and Mods */
@@ -105,23 +121,35 @@ void process_action(keyrecord_t *record)
                         if (event.pressed) {
                             if (tap_count == 0) {
                                 register_mods(mods);
-                            }
-                            else if (tap_count == 1) {
+                            } else if (tap_count == 1) {
                                 dprint("MODS_TAP: Oneshot: start\n");
                                 set_oneshot_mods(mods);
-                            }
-                            else {
+                    #if defined(ONESHOT_TAP_TOGGLE) && ONESHOT_TAP_TOGGLE > 1
+                            } else if (tap_count == ONESHOT_TAP_TOGGLE) {
+                                dprint("MODS_TAP: Toggling oneshot");
+                                clear_oneshot_mods();
+                                set_oneshot_locked_mods(mods);
+                                register_mods(mods);
+                    #endif
+                            } else {
                                 register_mods(mods);
                             }
                         } else {
                             if (tap_count == 0) {
                                 clear_oneshot_mods();
                                 unregister_mods(mods);
-                            }
-                            else if (tap_count == 1) {
+                            } else if (tap_count == 1) {
                                 // Retain Oneshot mods
-                            }
-                            else {
+                    #if defined(ONESHOT_TAP_TOGGLE) && ONESHOT_TAP_TOGGLE > 1
+                                if (mods & get_mods()) {
+                                    clear_oneshot_locked_mods();
+                                    clear_oneshot_mods();
+                                    unregister_mods(mods);
+                                }
+                            } else if (tap_count == ONESHOT_TAP_TOGGLE) {
+                                // Toggle Oneshot Layer
+                    #endif
+                            } else {
                                 clear_oneshot_mods();
                                 unregister_mods(mods);
                             }
@@ -237,6 +265,16 @@ void process_action(keyrecord_t *record)
         case ACT_LAYER_TAP:
         case ACT_LAYER_TAP_EXT:
             switch (action.layer_tap.code) {
+                case 0xe0 ... 0xef:
+                    /* layer On/Off with modifiers(left only) */
+                    if (event.pressed) {
+                        layer_on(action.layer_tap.val);
+                        register_mods(action.layer_tap.code & 0x0f);
+                    } else {
+                        layer_off(action.layer_tap.val);
+                        unregister_mods(action.layer_tap.code & 0x0f);
+                    }
+                    break;
                 case OP_TAP_TOGGLE:
                     /* tap toggle */
                     if (event.pressed) {
@@ -261,6 +299,44 @@ void process_action(keyrecord_t *record)
                     event.pressed ? layer_move(action.layer_tap.val) :
                                     layer_clear();
                     break;
+            #ifndef NO_ACTION_ONESHOT
+                case OP_ONESHOT:
+                    // Oneshot modifier
+                #if defined(ONESHOT_TAP_TOGGLE) && ONESHOT_TAP_TOGGLE > 1
+                    do_release_oneshot = false;
+                    if (event.pressed) {
+                        del_mods(get_oneshot_locked_mods());
+                        if (get_oneshot_layer_state() == ONESHOT_TOGGLED) {
+                            reset_oneshot_layer();
+                            layer_off(action.layer_tap.val);
+                            break;
+                        } else if (tap_count < ONESHOT_TAP_TOGGLE) {
+                            layer_on(action.layer_tap.val);
+                            set_oneshot_layer(action.layer_tap.val, ONESHOT_START);
+                        }
+                    } else {
+                        add_mods(get_oneshot_locked_mods());
+                        if (tap_count >= ONESHOT_TAP_TOGGLE) {
+                            reset_oneshot_layer();
+                            clear_oneshot_locked_mods();
+                            set_oneshot_layer(action.layer_tap.val, ONESHOT_TOGGLED);
+                        } else {
+                            clear_oneshot_layer_state(ONESHOT_PRESSED);
+                        }
+                    }
+                #else
+                    if (event.pressed) {
+                        layer_on(action.layer_tap.val);
+                        set_oneshot_layer(action.layer_tap.val, ONESHOT_START);
+                    } else {
+                        clear_oneshot_layer_state(ONESHOT_PRESSED);
+                        if (tap_count > 1) {
+                            clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
+                        }
+                    }
+                #endif
+                    break;
+            #endif
                 default:
                     /* tap key */
                     if (event.pressed) {
@@ -321,6 +397,18 @@ void process_action(keyrecord_t *record)
         default:
             break;
     }
+
+#ifndef NO_ACTION_ONESHOT
+    /* Because we switch layers after a oneshot event, we need to release the
+     * key before we leave the layer or no key up event will be generated.
+     */
+    if (do_release_oneshot && !(get_oneshot_layer_state() & ONESHOT_PRESSED )   ) {
+        record->event.pressed = false;
+        layer_on(get_oneshot_layer());
+        process_action(record);
+        layer_off(get_oneshot_layer());
+    }
+#endif
 }
 
 
@@ -505,7 +593,13 @@ bool is_tap_key(key_t key)
         case ACT_RMODS_TAP:
         case ACT_LAYER_TAP:
         case ACT_LAYER_TAP_EXT:
-            return true;
+            switch (action.layer_tap.code) {
+                case 0x00 ... 0xdf:
+                case OP_TAP_TOGGLE:
+                case OP_ONESHOT:
+                    return true;
+            }
+            return false;
         case ACT_MACRO:
         case ACT_FUNCTION:
             if (action.func.opt & FUNC_TAP) { return true; }
