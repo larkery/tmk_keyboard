@@ -18,8 +18,7 @@
 #define IS_TAPPING_PRESSED()    (IS_TAPPING() && tapping_key.event.pressed)
 #define IS_TAPPING_RELEASED()   (IS_TAPPING() && !tapping_key.event.pressed)
 #define IS_TAPPING_KEY(k)       (IS_TAPPING() && KEYEQ(tapping_key.event.key, (k)))
-#define WITHIN_TAPPING_TERM(e)  (TIMER_DIFF_16(e.time, tapping_key.event.time) < TAPPING_TERM)
-
+#define WITHIN_TAPPING_TERM(e)  (TIMER_DIFF_16(e.time, tapping_key.event.time) < TAPPING_TERM(e))
 
 static keyrecord_t tapping_key = {};
 static keyrecord_t waiting_buffer[WAITING_BUFFER_SIZE] = {};
@@ -96,12 +95,8 @@ bool process_tapping(keyrecord_t *keyp)
                     // enqueue
                     return false;
                 }
-#if TAPPING_TERM >= 500
-                /* Process a key typed within TAPPING_TERM
-                 * This can register the key before settlement of tapping,
-                 * useful for long TAPPING_TERM but may prevent fast typing.
-                 */
-                else if (IS_RELEASED(event) && waiting_buffer_typed(event)) {
+#ifdef LONG_TAPPING
+                else if ((TAPPING_TERM(event) >= 500) && IS_RELEASED(event) && waiting_buffer_typed(event)) {
                     debug("Tapping: End. No tap. Interfered by typing key\n");
                     process_action(&tapping_key);
                     tapping_key = (keyrecord_t){};

@@ -148,7 +148,7 @@ void process_action(keyrecord_t *record)
                                 }
                             } else if (tap_count == ONESHOT_TAP_TOGGLE) {
                                 // Toggle Oneshot Layer
-                    #endif
+                   #endif
                             } else {
                                 clear_oneshot_mods();
                                 unregister_mods(mods);
