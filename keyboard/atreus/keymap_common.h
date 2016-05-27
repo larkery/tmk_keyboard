@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "keycode.h"
 #include "action.h"
 #include "action_macro.h"
+#include "action_util.h"
 #include "report.h"
 #include "host.h"
 #include "print.h"
@@ -109,6 +110,7 @@ extern const uint16_t fn_actions[];
 
 enum function_id {
   BOOTLOADER,
+  CLEAR_MODIFIERS
 };
 
 void bootloader(void);
