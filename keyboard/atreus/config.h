@@ -56,7 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ONESHOT_TAP_TOGGLE 2
 #define ONESHOT_TIMEOUT 500
 #define TAPPING_TERM(event) ({action_t ac = layer_switch_get_action(event.key); \
-      (ac.code == ACT_LAYER_TAP && ac.key.code == KC_SPC) ? 280 : 200;})
+      (ac.code == ACT_LAYER_TAP && ac.key.code == KC_SPC) ? 280 : 180;})
 
 /* disable debug print */
 //#define NO_DEBUG
