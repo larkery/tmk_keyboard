@@ -47,16 +47,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)) \
 )
 
-
 /*
  * Feature disable options
  *  These options are also useful to firmware size reduction.
  */
 
-#define ONESHOT_TAP_TOGGLE 2
+#define ONESHOT_TAP_TOGGLE 3
 #define ONESHOT_TIMEOUT 500
 #define TAPPING_TERM(event) ({action_t ac = layer_switch_get_action(event.key); \
-      (ac.code == ACT_LAYER_TAP && ac.key.code == KC_SPC) ? 280 : 180;})
+      (ac.code == ACT_LAYER_TAP && ac.key.code == KC_SPC) ? 450 : 180;})
 
 /* disable debug print */
 //#define NO_DEBUG

@@ -27,9 +27,9 @@
 
 const uint16_t PROGMEM fn_actions[] = {
   #define LAYR1 KC_FN0
-  [0] = ACTION_LAYER_TAP_KEY(1, L1KEY),  // to Fn overlay
+  [0] = ACTION_LAYER_TAP_KEY(2, L1KEY),  // to Fn overlay
   #define LAYR2 KC_FN1
-  [1] = ACTION_LAYER_TAP_KEY(2, L2KEY),  // to Fn overlay
+  [1] = ACTION_LAYER_TAP_KEY(3, L2KEY),  // to Fn overlay
   #define REBOOT KC_FN2
   [2] = ACTION_FUNCTION(BOOTLOADER),
   #define SSFT KC_FN3
@@ -39,7 +39,7 @@ const uint16_t PROGMEM fn_actions[] = {
   #define SALT KC_FN5
   [5] = ACTION_MODS_ONESHOT(MOD_LALT),
   #define LAYR3 KC_FN6
-  [6] = ACTION_LAYER_TAP_KEY(3, KC_SCLN),
+  [6] = ACTION_LAYER_TAP_KEY(1, KC_SCLN),
   #define NOLA KC_FN7
   [7] = ACTION_LAYER_SET_CLEAR(0),
   #define SHFB KC_FN8
@@ -51,24 +51,28 @@ const uint16_t PROGMEM fn_actions[] = {
   #define SSUP KC_FN11
   [11] = ACTION_MODS_ONESHOT(MOD_LGUI),
   #define ZSHIFT KC_FN12
-  [12] = ACTION_MODS_TAP_KEY(MOD_LSFT, KC_Z)
+  [12] = ACTION_MODS_TAP_KEY(MOD_LSFT, KC_Z),
+  #define GOL1 KC_FN13
+  [13] = ACTION_LAYER_TOGGLE(2),
+  #define GOL2 KC_FN14
+  [14] = ACTION_LAYER_TOGGLE(3)
 };
 
 #define BASE_LAYER                                                      \
   KEYMAP(                                                               \
          KC_Q,  KC_W,    KC_E,     KC_R,    KC_T,  KC_Y, KC_U, KC_I,    KC_O,   KC_P, \
          KC_A,  KC_S,    KC_D,     KC_F,    KC_G,  KC_H, KC_J, KC_K,    KC_L,   LAYR3, \
-         ZSHIFT,  KC_X,    KC_C,     KC_V,    KC_B,  KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, \
-         ESC,   KC_TAB,  SSUP,     SSFT,    LAYR1, SCTL, SALT,          \
+         KC_Z,  KC_X,    KC_C,     KC_V,    KC_B,  KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, \
+         ESC,   KC_TAB,  SSUP,     SSFT,  LAYR1, SCTL, SALT,          \
          LAYR2, KC_MINS, KC_EQUAL, KC_QUOT, KC_ENT)
 
 #define LAYER1                                                          \
   KEYMAP(                                                               \
-         KC_1,    KC_2,    KC_3,    KC_4,    KC_5,     KC_6,    KC_7,     KC_8,    KC_9,   KC_0, \
-         EXCLM,   QUOTE,   POUND,   DOLLR,   PRCNT,    HAT,     AMP,     STAR,    LPARN,   RPARN, \
-         PLUS,    KC_LEFT, KC_UP,   KC_DOWN, KC_RIGHT, KC_NUHS, KC_NUBS, TILDE,   KC_LBRC, KC_RBRC, \ 
-         KC_TRNS, CTRL(KC_C), KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, \        
-         L2KEY,   KC_TRNS, PIPE,    LBRCE,   RBRCE)
+         KC_1,    KC_2,           KC_3,    KC_4,    KC_5,     KC_6,    KC_7,    KC_8,  KC_9,    KC_0, \
+         EXCLM,   QUOTE,          POUND,   DOLLR,   PRCNT,    HAT,     AMP,     STAR,  LPARN,   RPARN, \
+         PLUS,    KC_LEFT,        KC_UP,   KC_DOWN, KC_RIGHT, KC_NUHS, KC_NUBS, TILDE, KC_LBRC, KC_RBRC, \ 
+         KC_TRNS, SHIFT(KC_SCLN), KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, \      
+         L2KEY,   KC_GRAVE,       PIPE,    LBRCE,   RBRCE)
 
 #define LAYER2                                                          \
   KEYMAP(                                                               \
@@ -80,28 +84,31 @@ const uint16_t PROGMEM fn_actions[] = {
 
 #define LAYER3                                                          \
   KEYMAP(                                                               \
-         KC_ESC, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-         KC_TAB, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, REBOOT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS)
+         KC_ESC,  CALT(KC_LEFT), CALT(KC_UP), CALT(KC_DOWN), CALT(KC_RIGHT), KC_CUT,   KC_FIND,    KC_NO, KC_NO, KC_NO, \
+         KC_TAB,  CTRL(KC_LEFT), CTRL(KC_UP), CTRL(KC_DOWN), CTRL(KC_RIGHT), KC_COPY,  KC_AGAIN,   KC_NO, SHIFT(KC_SCLN), KC_TRNS, \
+         KC_TRNS, ALT(KC_LEFT),  ALT(KC_UP),  ALT(KC_DOWN),  ALT(KC_RIGHT),  KC_PASTE, KC_EXECUTE, KC_NO, KC_NO, KC_NO, \
+         KC_TRNS, KC_TRNS,       KC_TRNS,     KC_TRNS,       GOL1,        KC_TRNS,  KC_TRNS, \
+         GOL2, KC_TRNS,       KC_TRNS,     KC_TRNS,       REBOOT)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /* 0: mostly letters */
   BASE_LAYER,
+  LAYER3,
   LAYER1,
-  LAYER2,
-  LAYER3
+  LAYER2
 };
 
 void clear_modifiers(keyevent_t);
 
 void clear_modifiers(keyevent_t event) {
   //clear mods if sticky set, else die
+  //also deactivt
   uint8_t osmods = get_oneshot_locked_mods();
-  if (osmods) {
+  
+  if (osmods || (layer_state != default_layer_state)) {
     if (!event.pressed) {
+      layer_clear();
       clear_oneshot_locked_mods();
       del_mods(osmods);
     }
