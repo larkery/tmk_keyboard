@@ -60,26 +60,26 @@ const uint16_t PROGMEM fn_actions[] = {
 
 #define BASE_LAYER                                                      \
   KEYMAP(                                                               \
-         KC_Q,    KC_W,    KC_E,     KC_R,    KC_T,  KC_Y, KC_U, KC_I,    KC_O,   KC_P, \
-         KC_A,    KC_S,    KC_D,     KC_F,    KC_G,  KC_H, KC_J, KC_K,    KC_L,   LAYR3, \
-         KC_Z,    KC_X,    KC_C,     KC_V,    KC_B,  KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, \
-         SSFT,    ESC,     SSUP,     KC_BSPC,    LAYR1, SCTL, SALT,        \
-         LAYR2,   KC_MINS, KC_EQUAL, KC_QUOT, KC_ENT)
+         KC_Q,  KC_W,    KC_E,     KC_R,    KC_T,  KC_Y, KC_U, KC_I,    KC_O,   KC_P, \
+         KC_A,  KC_S,    KC_D,     KC_F,    KC_G,  KC_H, KC_J, KC_K,    KC_L,   LAYR3, \
+         KC_Z,  KC_X,    KC_C,     KC_V,    KC_B,  KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, \
+         SSFT,  ESC,     SSUP,     KC_BSPC, LAYR1, SCTL, SALT,          \
+         LAYR2, KC_MINS, KC_EQUAL, KC_QUOT, KC_ENT)
 
 #define LAYER1                                                          \
-  KEYMAP(KC_1,    KC_2,           KC_3,    KC_4,    KC_5,     KC_6,    KC_7,    KC_8,  KC_9,    KC_0, \
-         EXCLM,   QUOTE,          POUND,   DOLLR,   PRCNT,    HAT,     AMP,     STAR,  LPARN,   RPARN, \
-         PLUS,    KC_LEFT,        KC_UP,   KC_DOWN, KC_RIGHT, KC_NUBS, KC_NUHS, TILDE, KC_LBRC, KC_RBRC, \
-         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, \
-         SHIFT(KC_SCLN),   KC_DOT,       PIPE,    LBRCE,   RBRCE)
+  KEYMAP(KC_1,           KC_2,    KC_3,    KC_4,    KC_5,     KC_6,    KC_7,    KC_8,  KC_9,    KC_0, \
+         EXCLM,          QUOTE,   POUND,   DOLLR,   PRCNT,    HAT,     AMP,     STAR,  LPARN,   RPARN, \
+         PLUS,           KC_LEFT, KC_UP,   KC_DOWN, KC_RIGHT, KC_NUBS, KC_NUHS, TILDE, KC_LBRC, KC_RBRC, \
+         KC_TRNS,        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, \
+         SHIFT(KC_SCLN), KC_DOT,  PIPE,    LBRCE,   RBRCE)
 
 #define LAYER2                                                          \
   KEYMAP(                                                               \
          KC_GRAVE,    CALT(KC_LEFT), CALT(KC_UP), CALT(KC_DOWN), CALT(KC_RIGHT), KC_F1,   KC_F2,   KC_F3,  KC_F4,  KC_F5, \
          KC__VOLUP,   CTRL(KC_LEFT), CTRL(KC_UP), CTRL(KC_DOWN), CTRL(KC_RIGHT), KC_F6,   KC_F7,   KC_F8,  KC_F9,  KC_F10, \
-         KC__VOLDOWN, ALT(KC_LEFT),  ALT(KC_UP),  ALT(KC_DOWN),  ALT(KC_RIGHT),  KC_F11,   KC_HOME, KC_PGUP, KC_PGDN, KC_END, \
+         KC__VOLDOWN, ALT(KC_LEFT),  ALT(KC_UP),  ALT(KC_DOWN),  ALT(KC_RIGHT),  KC_F11,  KC_F12,  KC_F13, KC_F14, KC_F15, \
          KC_TRNS,     KC_TRNS,       KC_TRNS,     KC_TRNS,       L1KEY,          KC_TRNS, KC_TRNS, \
-         KC_TRNS,     KC_F12,  KC_F13, KC_F14, KC_F15)
+         KC_TRNS,     KC_HOME,       KC_PGUP,     KC_PGDN,       KC_END)
 
 #define LAYER3                                                          \
   KEYMAP(                                                               \
@@ -89,21 +89,12 @@ const uint16_t PROGMEM fn_actions[] = {
          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, GOL1,     KC_TRNS,  KC_TRNS, \
          GOL2,    KC_TRNS, KC_TRNS, KC_TRNS, REBOOT)
 
-#define LOCK_KEYS                                                          \
-  KEYMAP(                                                               \
-         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS)
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* 0: mostly letters */
   BASE_LAYER,
   LAYER3,
   LAYER1,
-  LAYER2,
-  LOCK_KEYS
+  LAYER2
 };
 
 void clear_modifiers(keyevent_t);
