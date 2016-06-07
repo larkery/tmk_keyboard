@@ -69,17 +69,17 @@ const uint16_t PROGMEM fn_actions[] = {
 #define LAYER1                                                          \
   KEYMAP(KC_1,    KC_2,           KC_3,    KC_4,    KC_5,     KC_6,    KC_7,    KC_8,  KC_9,    KC_0, \
          EXCLM,   QUOTE,          POUND,   DOLLR,   PRCNT,    HAT,     AMP,     STAR,  LPARN,   RPARN, \
-         PLUS,    KC_LEFT,        KC_UP,   KC_DOWN, KC_RIGHT, KC_NUHS, KC_NUBS, TILDE, KC_LBRC, KC_RBRC, \
-         KC_TRNS, KC_DOT, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, \
-         SHIFT(KC_SCLN),   KC_GRAVE,       PIPE,    LBRCE,   RBRCE)
+         PLUS,    KC_LEFT,        KC_UP,   KC_DOWN, KC_RIGHT, KC_NUBS, KC_NUHS, TILDE, KC_LBRC, KC_RBRC, \
+         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, \
+         SHIFT(KC_SCLN),   KC_DOT,       PIPE,    LBRCE,   RBRCE)
 
 #define LAYER2                                                          \
   KEYMAP(                                                               \
          KC_GRAVE,    CALT(KC_LEFT), CALT(KC_UP), CALT(KC_DOWN), CALT(KC_RIGHT), KC_F1,   KC_F2,   KC_F3,  KC_F4,  KC_F5, \
          KC__VOLUP,   CTRL(KC_LEFT), CTRL(KC_UP), CTRL(KC_DOWN), CTRL(KC_RIGHT), KC_F6,   KC_F7,   KC_F8,  KC_F9,  KC_F10, \
-         KC__VOLDOWN, ALT(KC_LEFT),  ALT(KC_UP),  ALT(KC_DOWN),  ALT(KC_RIGHT),  KC_F11,  KC_F12,  KC_F13, KC_F14, KC_F15, \
+         KC__VOLDOWN, ALT(KC_LEFT),  ALT(KC_UP),  ALT(KC_DOWN),  ALT(KC_RIGHT),  KC_F11,   KC_HOME, KC_PGUP, KC_PGDN, KC_END, \
          KC_TRNS,     KC_TRNS,       KC_TRNS,     KC_TRNS,       L1KEY,          KC_TRNS, KC_TRNS, \
-         KC_TRNS,     L2KEY,         KC_F18,      KC_F20,        KC_TRNS)
+         KC_TRNS,     KC_F12,  KC_F13, KC_F14, KC_F15)
 
 #define LAYER3                                                          \
   KEYMAP(                                                               \
