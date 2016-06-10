@@ -22,6 +22,19 @@ const uint16_t PROGMEM fn_actions[] = {
 #define KA_SHIFT KC_FN2
 #define KA_FUNS KC_FN3
 
+#define KA_BANG SHIFT(KC_1)
+#define KA_DQUO SHIFT(KC_2)
+#define KA_AMP SHIFT(KC_7)
+#define KA_STAR SHIFT(KC_8)
+#define KA_LPAR SHIFT(KC_9)
+#define KA_RPAR SHIFT(KC_0)
+#define KA_LBRA SHIFT(KC_LBRC)
+#define KA_RBRA SHIFT(KC_RBRC)
+#define KA_HAT SHIFT(KC_6)
+#define KA_PIPE SHIFT(KC_NUBS)
+#define KA_DOLR SHIFT(KC_4)
+#define KA_PCNT SHIFT(KC_5)
+
 #define QWERTY\
   MAP( KC_Q,   KC_W,   KC_E,    KC_R,     KC_T,    KC_Y,   KC_U,    KC_I,    KC_O,    KC_P, \
        KC_A,   KC_S,   KC_D,    KC_F,     KC_G,    KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, \
@@ -29,16 +42,16 @@ const uint16_t PROGMEM fn_actions[] = {
        KA_ESC, KC_TAB, KC_LGUI, KA_SHIFT, KC_BSPC, KC_SPC, KA_NUMS, KA_FUNS, KC_QUOT, KC_ENT)
 
 #define NUMS\
-  MAP( KC_1,  KC_2,  KC_3,    KC_4,    KC_5,    KC_NO, KC_NO,   KC_NO, KC_NO,       KC_NO, \
-       KC_6,  KC_7,  KC_8,    KC_9,    KC_0,    KC_NO, KC_NO,   KC_NO, KC_NO,       KC_NUHS, \
-       KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO,   KC_NO, KC_NO,       KC_NUBS, \
-       KC_NO, KC_NO, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO, KC_TRNS, KC_NO, SHIFT(KC_2), KC_GRAVE)
+  MAP( KC_1,   KC_2,    KC_3,    KC_4,    KC_5,     KA_BANG, KC_LBRC, KA_AMP,   KC_RBRC, KA_PIPE, \
+       KC_6,   KC_7,    KC_8,    KC_9,    KC_0,     KC_NUHS, KA_LPAR, KA_DQUO,  KA_RPAR, SHIFT(KC_SCLN), \
+       KC_DOT, KC_LEFT, KC_UP,   KC_DOWN, KC_RIGHT, KC_NUBS, KA_LBRA, KA_STAR,  KA_RBRA, SHIFT(KC_NUHS), \
+       KC_NO,  KC_NO,   KC_TRNS, KC_TRNS, KC_TRNS,  KA_PCNT, KC_TRNS, KC_GRAVE, KA_DOLR, KA_HAT)
 
 #define FNS                                                             \
-  MAP( KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_NO, KC_NO, KC_NO,   KC_NO, KC_NO, \
-       KC_F6,  KC_F7,  KC_F8,  KC_F9,  KC_F10, KC_NO, KC_NO, KC_NO,   KC_NO, KC_NO, \
-       KC_F11, KC_F12, KC_F13, KC_F14, KC_F15, KC_NO, KC_NO, KC_NO,   KC_NO, KC_NO, \
-       KC_F16, KC_F17, KC_F18, KC_F20, KC_F21, KC_NO, KC_NO, KC_TRNS, KC_NO, KA_BOOT)
+  MAP( KC_NO,   KC_NO, KC_NO, KC_NO, KC_NO, KC_F1,  KC_F2,  KC_F3,   KC_F4,  KC_F5, \
+       KC_NO,   KC_NO, KC_NO, KC_NO, KC_NO, KC_F6,  KC_F7,  KC_F8,   KC_F9,  KC_F10, \
+       KC_NO,   KC_NO, KC_NO, KC_NO, KC_NO, KC_F11, KC_F12, KC_F13,  KC_F14, KC_F15, \
+       KA_BOOT, KC_NO, KC_NO, KC_NO, KC_NO, KC_F16, KC_F17, KC_TRNS, KC_F18, KC_F20)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   QWERTY,
