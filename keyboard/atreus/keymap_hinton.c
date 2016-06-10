@@ -44,7 +44,7 @@ const uint16_t PROGMEM fn_actions[] = {
 #define NUMS\
   MAP( KC_7, KC_8,   KC_9,    KC_LEFT, KC_RIGHT, KA_BANG, KC_LBRC, KA_AMP,   KC_RBRC, KA_PIPE, \
        KC_4, KC_5,   KC_6,    KC_UP,   KC_DOWN,  KC_NUHS, KA_LPAR, KA_DQUO,  KA_RPAR, SHIFT(KC_SCLN), \
-       KC_1, KC_2,   KC_3,    KC_PGUP, KC_PGDN, KC_NUBS, KA_LBRA, KA_STAR,  KA_RBRA, SHIFT(KC_NUHS), \
+       KC_1, KC_2,   KC_3,    KC_PGUP, KC_PGDN,  KC_NUBS, KA_LBRA, KA_STAR,  KA_RBRA, SHIFT(KC_NUHS), \
        KC_0, KC_DOT, KC_TRNS, KC_TRNS, KC_TRNS,  KA_PCNT, KC_TRNS, KC_GRAVE, KA_DOLR, KA_HAT)
 
 #define FNS                                                             \
