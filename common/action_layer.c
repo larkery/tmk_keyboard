@@ -3,13 +3,13 @@
 #include "action.h"
 #include "util.h"
 #include "action_layer.h"
+#include "action.h"
 
 #ifdef DEBUG_ACTION
 #include "debug.h"
 #else
 #include "nodebug.h"
 #endif
-
 
 /* 
  * Default Layer State
@@ -64,6 +64,11 @@ static void layer_state_set(uint32_t state)
     layer_state = state;
     layer_debug(); dprintln();
     clear_keyboard_but_mods(); // To avoid stuck keys
+    if (layer_state) {
+      unregister_mods(get_oneshot_locked_mods());
+    } else {
+      register_mods(get_oneshot_locked_mods());
+    }
 }
 
 void layer_clear(void)

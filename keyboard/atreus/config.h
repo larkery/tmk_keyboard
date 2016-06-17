@@ -52,10 +52,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *  These options are also useful to firmware size reduction.
  */
 
-#define LONG_TAPPING 1
-#define ONESHOT_TAP_TOGGLE 3
+#define LONG_TAPPING 0
+#define ONESHOT_TAP_TOGGLE 2
 #define ONESHOT_TIMEOUT 300
-#define TAPPING_TERM(event) 200
+#define TAPPING_TERM(event) 160
 
 //({action_t ac = layer_switch_get_action(event.key);                   \
 //    (ac.code == ACT_LAYER_TAP && ac.key.code == KC_SPC) ? 1000 : 1000;})
