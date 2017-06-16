@@ -24,7 +24,7 @@ Download one of the [precompiled firmwares](https://atreus.technomancy.us/downlo
 
 If you have Homebrew:
 
-    $ brew tap larsimmisch/avr
+    $ brew tap osx-cross/avr
     $ brew install avrdude
 
 If you don't have Homebrew, use [Crosspack for AVR](https://www.obdev.at/products/crosspack/index.html).
@@ -49,6 +49,7 @@ above. Reset the board and quickly run this command:
 
 It should emit a bunch of output followed by "avrdude done.  Thank you."
 
+You shouldn't have to run these commands as root.
 If the upload does not complete, check the permissions on the USB
 device and ensure it's writeable by your user. You may need to run
 `sudo make udev` on some Linux-based systems to install a udev rule if
@@ -151,6 +152,14 @@ USB=/dev/ttyACM0`.
 Formerly you would have to specify `SWAPCOLUMNS` or `PCBFLIP` for
 boards that had the labeled side facing up, but this is now the
 default.
+
+### Mouse keys
+
+The included `keymap_mouse.c` layout shows how to add a layer with
+keys that control the mouse. Add a `MOUSEKEY_ENABLE=yes` argument to
+your `make` command when you compile when you select this layout, and
+you can use `fn+esc, z` to enter mouse mode. A tap of `fn` will take
+you back to layer 2.
 
 ## Teensy 2
 
