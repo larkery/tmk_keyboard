@@ -10,15 +10,23 @@
           K20, K21, K22, K23, K24, K25, K26, K27, K28, K29,             \
           K30, K31, K32, K33, K34, KC_LCTL, KC_LALT, K35, K36, K37, K38, K39)
 
+enum my_function_id {
+  F_BOOTLOADER,
+  F_LOCK_NUMBERS,
+  F_LOCK_FUNCTIONS,
+  F_MUTE_OR_QUIET
+};
+
 const uint16_t PROGMEM fn_actions[] = {
-  [0] = ACTION_FUNCTION(0),
+  [0] = ACTION_FUNCTION(F_BOOTLOADER),
   [1] = ACTION_LAYER_TAP_KEY(1, KC_MINS),
   [2] = ACTION_MODS_ONESHOT(MOD_LSFT),
   [3] = ACTION_LAYER_TAP_KEY(2, KC_EQUAL),
-  [4] = ACTION_FUNCTION(1),//ACTION_LAYER_BIT_SET(0, 0b101, ON_PRESS),
+  [4] = ACTION_FUNCTION(F_LOCK_NUMBERS),//ACTION_LAYER_BIT_SET(0, 0b101, ON_PRESS),
   [5] = ACTION_LAYER_MOMENTARY(1),
   [6] = ACTION_LAYER_SET(0, ON_PRESS),
-  [7] = ACTION_FUNCTION(2)
+  [7] = ACTION_FUNCTION(F_LOCK_FUNCTIONS),
+  [8] = ACTION_FUNCTION_TAP(F_MUTE_OR_QUIET)
 };
 
 // it would be nice for shift-lock to ignore layer two
@@ -32,6 +40,7 @@ const uint16_t PROGMEM fn_actions[] = {
 #define KA_MONUMS KC_FN5
 #define KA_CLEAR KC_FN6
 #define KA_LOCK2 KC_FN7
+#define KA_VOLDM KC_FN8
 
 #define KA_BANG SHIFT(KC_1)
 #define KA_DQUO SHIFT(KC_2)
@@ -62,9 +71,9 @@ const uint16_t PROGMEM fn_actions[] = {
 
 #define FNS                                                             \
   MAP( KC_HELP,     KC_HOME, KC_UP,   KC_END,   KC_PGUP,   KC_F1,  KC_F2,  KC_F3,   KC_F4,  KC_F5, \
-       KC_NO,       KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN,   KC_F6,  KC_F7,  KC_F8,   KC_F9,  KC_F10, \
-       KC_NO,       KC_APP,  KC_NO,   KC_NO,    KC_INSERT, KC_F11, KC_F12, KC_F13,  KC_F14, KC_F15, \
-       KA_BOOT,     KC_NO,   KC_NO,   KC_NO,    KC_DELETE, KC_F16, KC_F17, KC_TRNS, KC_F18, KA_LOCK2)
+       KC__VOLUP,     KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN,   KC_F6,  KC_F7,  KC_F8,   KC_F9,  KC_F10, \
+       KA_VOLDM,    KC_APP,  KC_NO,   KC_NO,    KC_INSERT, KC_F11, KC_F12, KC_F13,  KC_F14, KC_F15, \
+       KA_BOOT,     KC_NO,   KC_TRNS, KC_TRNS,  KC_DELETE, KC_F16, KC_F17, KC_TRNS, KC_F18, KA_LOCK2)
 
 #define CLEARS \
   MAP( KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
@@ -80,17 +89,45 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
+  keyevent_t event = record->event;
+  tap_t tap = record->tap;
+
   switch (id) {
-  case 0:
+  case F_BOOTLOADER:
     bootloader();
     break;
-  case 1:
+  case F_LOCK_NUMBERS:
     layer_on(1);
     layer_on(3);
     break;
-  case 2:
+  case F_LOCK_FUNCTIONS:
     layer_on(2);
     layer_on(3);
+    break;
+  case F_MUTE_OR_QUIET:
+    if (event.pressed) {
+      if (tap.count == 0 || tap.interrupted) {
+        add_key(KC__VOLDOWN);
+        send_keyboard_report();
+      } else if (tap.count == 1) {
+        add_key(KC__VOLDOWN);
+        send_keyboard_report();
+        del_key(KC__VOLDOWN);
+        send_keyboard_report();
+      } else {
+        add_key(KC__MUTE);
+        send_keyboard_report();
+        del_key(KC__MUTE);
+        send_keyboard_report();
+      }
+    } else {
+      if (tap.count == 0 || tap.interrupted) {
+        del_key(KC__VOLDOWN);
+        send_keyboard_report();
+      }
+    }
+    break;
+  default:
     break;
   }
 }
