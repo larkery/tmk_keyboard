@@ -141,6 +141,7 @@ uint8_t matrix_key_count(void)
 static void  init_cols(void)
 {
     DDRB = DDRC = DDRE = DDRF = 0; // columns
+    DDRB |= (1 << PB1);
     PORTB = PORTC = PORTE = PORTF = 255; // pullup resistors on inputs
     DDRD = 15; // rows (1 2 4 8) high and columns (16 32 64 128) low
     PORTD = 15;
@@ -162,10 +163,10 @@ static matrix_row_t read_cols(void)
            (PINB&(1<<0) ? 0 : (1<<10)) ;
 #else
     return (PINB&(1<<7) ? 0 : (1<<10)) |
-           (PIND&(1<<6) ? 0 : (1<<9)) |
+           (PIND&(1<<6) ? 0 : (1<<6)) |
            (PINF&(1<<7) ? 0 : (1<<8)) |
            (PINF&(1<<6) ? 0 : (1<<7)) |
-           (PINB&(1<<6) ? 0 : (1<<6)) |
+           (PINB&(1<<6) ? 0 : (1<<9)) |
            (PIND&(1<<4) ? 0 : (1<<5)) |
            (PINE&(1<<6) ? 0 : (1<<4)) |
            (PINB&(1<<4) ? 0 : (1<<3)) |

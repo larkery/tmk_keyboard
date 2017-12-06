@@ -1,5 +1,6 @@
 #include "keymap_common.h"
 #include "action_layer.h"
+#include "misc.h"
 
 #define MAP(K00, K01, K02, K03, K04, K05, K06, K07, K08, K09,\
             K10, K11, K12, K13, K14, K15, K16, K17, K18, K19,\
@@ -130,4 +131,43 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
   default:
     break;
   }
+}
+
+
+uint8_t led_r0 = 0;
+uint8_t led_g0 = 0;
+uint8_t led_b0 = 255;
+
+extern void fancy_led_set(uint8_t r, uint8_t g, uint8_t b);
+
+void matrix_loop_hook() {
+  uint8_t led_r = 0;
+  uint8_t led_g = 0;
+  uint8_t led_b = 0;
+
+  if (get_oneshot_locked_mods()) {
+    fancy_led_set(0xFF, 0, 0);
+  } else {
+    fancy_led_set(0, 0, 0);
+  }
+
+  /* if (layer_state & 0b1) { */
+  /*   led_g = 255; */
+  /*   led_b = led_r = 0; */
+  /* } else if (layer_state & 0b10) { */
+  /*   led_b = 255; */
+  /*   led_g = led_r = 0; */
+  /* } else if (get_oneshot_locked_mods()) { */
+  /*   led_g = 0; */
+  /*   led_b = 0; */
+  /*   led_r = 255; */
+  /* } */
+
+  /* if ((led_r != led_r0) || (led_g != led_g0) || (led_b != led_b0)) { */
+  /*   led_r0 = led_r; */
+  /*   led_g0 = led_g; */
+  /*   led_b0 = led_b; */
+
+  /*   fancy_led_set(led_r0, led_g0, led_b0); */
+  /* } */
 }

@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef PS2_MOUSE_ENABLE
 #   include "ps2_mouse.h"
 #endif
-
+#include "misc.h"
 
 #ifdef MATRIX_HAS_GHOST
 static bool has_ghost_in_row(uint8_t row)
@@ -126,11 +126,14 @@ MATRIX_LOOP_END:
     ps2_mouse_task();
 #endif
 
-    // update LED
-    if (led_status != host_keyboard_leds()) {
-        led_status = host_keyboard_leds();
-        keyboard_set_leds(led_status);
-    }
+    /* we have no LEDs in my keyboard */
+    /* // update LED */
+    /* if (led_status != host_keyboard_leds()) { */
+    /*     led_status = host_keyboard_leds(); */
+    /*     keyboard_set_leds(led_status); */
+    /* } */
+
+    matrix_loop_hook();
 }
 
 void keyboard_set_leds(uint8_t leds)
